@@ -7,7 +7,7 @@ Podrán encontrar el enunciado del TP haciendo click [acá](https://docs.google.
 
 | Apellido           | Nombre             | Legajo         | Usuario de GIT |
 |:------------------:|:------------------:|:--------------:|:--------------:|
-| Apellido1          | Nombre1            | 111.111-1      | username1      |
+| Lazo               | Nicolas            | 167.465-1      | nicolaslazo    |
 | Apellido2          | Nombre2            | 222.222-2      | username2      |
 | Apellido3          | Nombre3            | 333.333-3      | username3      |
 | Apellido4          | Nombre4            | 444.444-4      | username4      |
