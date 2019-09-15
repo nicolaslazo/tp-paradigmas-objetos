@@ -1,11 +1,22 @@
 class Destino {
 	var nombre
 	var equipajeImprescindible
-	var precio
+	var property precio
 	
-	method precio() {
-		return precio
+	method esDetacado() {
+		return precio > 2000
 	}
+	
+	method esPeligroso() = equipajeImprescindible.any({equipaje => equipaje.esVacuna() }) //TODO: ver un stars with con un contains o algo asi
+	
+	method aplicarDescuento(unDescuento) = { 
+		self.precio(self.precio() - self.precio() * (unDescuento/100))
+		self.agregarCertificadoDescuento()
+	}
+	
+	method agregarCertificadoDescuento() = equipajeImprescindible.add("Certificado de descuento")
+	
+	method tieneEnEquipaje(unCoso) = equipajeImprescindible.contains(unCoso)
 }
 
 class Usuario {
@@ -14,8 +25,11 @@ class Usuario {
 	var saldo
 	var seguidos
 	
+	
+	method puedeVolar(unDestino) = saldo > unDestino.precio()
+	
 	method volar(destino) {
-		if (saldo > destino.precio()) {
+		if (self.puedeVolar(destino)) {
 			destinosConocidos.add(destino)
 			saldo -= destino.precio()
 		}
@@ -29,35 +43,30 @@ class Usuario {
 	}
 	
 	method seguirUsuario(usuario) {
-		if (usuario == self) {
+		//if (usuario == self) {     --lo comente porque no lo toma bien
 			// TODO: Tirar excepción
-		}
-		
+		//}		
 		seguidos.add(usuario)
 		usuario.seguirUsuario(self)
-	}
+	}	
+	
 }
 
-const garlicsSea = new Destino(
-	nombre = "Garlic's Sea",
-	equipajeImprescindible = ["Caña de Pescar, Piloto"],
-	precio = 2500
-)
-
-const silversSea = new Destino(
-	nombre = "Silver's Sea",
-	equipajeImprescindible = ["Protector Solar","Equipo de Buceo"],
-	precio = 1350
-)
-
-const lastToninas = new Destino(
-	nombre = "Last Toninas",
-	equipajeImprescindible = ["Vacuna Gripal", "Vacuna B", "Necronomicon"],
-	precio = 3500
-)
-
-const goodAirs = new Destino(
-	nombre = "Good Airs",
-	equipajeImprescindible = ["Cerveza", "Protector Solar"],
-	precio = 1500
-)
+class Empresa{
+	
+	var nombre	
+	var destinos
+	
+	method cartaDeDestinos() = destinos.fold("" , {destino => destino.nombre() + ", "})
+	
+	method esEmpresaExtrema() = destinos.any{destino => destino.esPeligroso()}
+	
+	method destinosDestacados() = destinos.filter{destino => destino.esDestacado()}
+	
+	method destinosPeligrosos() = destinos.filter{destino => destino.esPeligroso()}
+	
+	method aplicarDescuentoADestinos(unDescuento) = destinos.forEach{destino => 
+		destino.aplicarDescuento(unDescuento)		
+	}
+	
+}

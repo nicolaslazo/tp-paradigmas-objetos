@@ -9,7 +9,7 @@ Podrán encontrar el enunciado del TP haciendo click [acá](https://docs.google.
 |:------------------:|:------------------:|:--------------:|:--------------:|
 | Lazo               | Nicolas            | 167.465-1      | nicolaslazo    |
 | Costanzo           | Delfina            | 164.307-1      | delficostanzo  |
-| Apellido3          | Nombre3            | 333.333-3      | username3      |
+| Di Chena           | Federico           | 160.683-9      | dichenafederico|
 | Apellido4          | Nombre4            | 444.444-4      | username4      |
 
 ## ¡Ya lo cloné! y ahora ¿cómo lo importo desde `Wollok`?

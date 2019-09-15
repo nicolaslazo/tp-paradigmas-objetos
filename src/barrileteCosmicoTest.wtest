@@ -1,9 +1,83 @@
 import barrileteCosmico.*
 
-describe "Barrilete Cósmico" {
+describe "Barrilete Cósmico" {	
+	
+	const garlicsSea = new Destino(
+	nombre = "Garlic's Sea",
+	equipajeImprescindible = ["Caña de Pescar, Piloto"],
+	precio = 2500)
 
-	test "true es true" {
-		assert.that(true)
+	const silversSea = new Destino(
+	nombre = "Silver's Sea",
+	equipajeImprescindible = ["Protector Solar","Equipo de Buceo"],
+	precio = 1350)
+
+	const lastToninas = new Destino(
+	nombre = "Last Toninas",
+	equipajeImprescindible = ["Vacuna Gripal", "Vacuna B", "Necronomicon"],
+	precio = 3500)
+
+	const goodAirs = new Destino(
+	nombre = "Good Airs",
+	equipajeImprescindible = ["Cerveza", "Protector Solar"],
+	precio = 1500)
+	
+	const barrileteCosmico = new Empresa(
+		nombre = "Barrilete Cósmico",
+		destinos = [garlicsSea,silversSea,lastToninas,goodAirs]
+	)
+	
+	const pabloHari = new Usuario(
+		username = "PHari",
+		destinosConocidos = [lastToninas,goodAirs],
+		saldo = 1500,
+		seguidos = []
+	)	
+
+	test "Obtener los detinos más importantes de Barrilete Cósmico" {
+		assert.equals([garlicsSea,lastToninas] , barrileteCosmico.destinosDestacados())
 	}
+	
+	test "Aplicarle un 25% de descuento a Last Toninas" {
+		lastToninas.aplicarDescuento(25)
+		assert.equals(1125 , lastToninas.precio())
+		assert.that(lastToninas.tieneEnEquipaje("Certificado de descuento"))
+	}
+	
+	test "Averiguo si Silver's Sea es un destino peligroso, no lo es" {
+		assert.that(silversSea.esPeligroso().negate()) 
+	}
+	
+	test "Aplicar un descuento del 15% a todos los destinos de Barrilete Cósmico" {
+		barrileteCosmico.aplicarDescuentoADestinos(15)
+		assert.equals(2125,garlicsSea.precio())
+		assert.equals(1147.5,silversSea.precio())
+		assert.equals(1275,lastToninas.precio())
+		assert.equals(1275,goodAirs.precio())
+		assert.that(barrileteCosmico.destinos().all({ destino => destino.tieneEnEquipaje("Certificado de descuento")}))		
+	}
+	
+	test "Los destinos peligrosos son" {
+		assert.equals([lastToninas],barrileteCosmico.destinosPeligrosos()) 
+	}
+	
+	test "Barrilete cosmico es empresa extrema?" {
+		assert.that(barrileteCosmico.esEmpresaExtrema()) 
+	}
+	
+	test "Conocer la carta de destinos de Barrilete Cósmico" {
+		assert.equals("Last Toninas, Garlic´s sea, Good Airs y Silver's Sea",barrileteCosmico.cartaDeDestinos()) 
+	}
+	
+	test "Obtener las millas de PHari" {
+		assert.equals(500 ,pabloHari.kilometros()) 
+	}
+	
+	test "Hacer que PHari vuele a Silver 's Sea." {
+		assert.that(pabloHari.puedeVolar(silversSea)) 
+		assert.that(pabloHari.destinosConocidos().contains(silversSea)) 
+		assert.equals(150, pabloHari.saldo()) 
+	}	
+	
 	
 }
