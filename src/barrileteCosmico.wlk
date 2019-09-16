@@ -1,23 +1,50 @@
 class Destino {
-	var nombre
+	var property nombre
 	var equipajeImprescindible
 	var property precio
 	
-	method esDetacado() {
+	method esDestacado() {
 		return precio > 2000
 	}
 	
-	method esPeligroso() = equipajeImprescindible.any({equipaje => equipaje.esVacuna() }) //TODO: ver un stars with con un contains o algo asi
+	method esPeligroso() {
+		return equipajeImprescindible.any({equipaje => equipaje.esVacuna() }) //TODO: ver un stars with con un contains o algo asi
+	}
 	
 	method aplicarDescuento(unDescuento) = { 
 		self.precio(self.precio() - self.precio() * (unDescuento/100))
 		self.agregarCertificadoDescuento()
 	}
 	
-	method agregarCertificadoDescuento() = equipajeImprescindible.add("Certificado de descuento")
+	method agregarCertificadoDescuento() {
+		return  equipajeImprescindible.add("Certificado de descuento")
+	}
 	
-	method tieneEnEquipaje(unCoso) = equipajeImprescindible.contains(unCoso)
+	method tieneEnEquipaje(unCoso) {
+		return equipajeImprescindible.contains(unCoso)
+		
+		}
+
 }
+
+
+object barrileteCosmico{
+	var property destinos = []
+	
+	method obtenerDestinosImportantes(){
+		return destinos.map({destino => destino.esDestacado()})
+	}
+	
+	
+	method obtenerCartaDeDestinos(){
+		return destinos.map({destino => destino.nombre()})
+	}
+	
+	method agregarDestinos(variosDestinos){
+		destinos = destinos + variosDestinos
+	}
+}
+
 
 class Usuario {
 	var username
@@ -26,8 +53,11 @@ class Usuario {
 	var seguidos
 	
 	
-	method puedeVolar(unDestino) = saldo > unDestino.precio()
+	method puedeVolar(unDestino) {
 	
+		return  saldo > unDestino.precio()
+	
+	}
 	method volar(destino) {
 		if (self.puedeVolar(destino)) {
 			destinosConocidos.add(destino)
