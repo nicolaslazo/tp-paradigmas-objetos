@@ -10,6 +10,7 @@ Podrán encontrar el enunciado del TP haciendo click [acá](https://docs.google.
 | Lazo               | Nicolas            | 167.465-1      | nicolaslazo    |
 | Costanzo           | Delfina            | 164.307-1      | delficostanzo  |
 | Di Chena           | Federico           | 160.683-9      | dichenafederico|
+| Landoni            | Guido              | 163.177-9      | GuidoLandoni   |
 
 ## ¡Ya lo cloné! y ahora ¿cómo lo importo desde `Wollok`?
 
