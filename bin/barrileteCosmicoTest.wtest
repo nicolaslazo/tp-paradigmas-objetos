@@ -24,7 +24,7 @@ describe "Barrilete Cósmico" {
 	
 	const barrileteCosmico = new Empresa(
 		nombre = "Barrilete Cósmico",
-		destinos = [garlicsSea,silversSea,lastToninas,goodAirs]
+		destinos = [lastToninas, garlicsSea, goodAirs, silversSea]
 	)
 	
 	const pabloHari = new Usuario(
@@ -66,7 +66,7 @@ describe "Barrilete Cósmico" {
 	}
 	
 	test "Conocer la carta de destinos de Barrilete Cósmico" {
-		assert.equals("Last Toninas Garlic´s sea Good Airs Silver's Sea ", barrileteCosmico.cartaDeDestinos()) 
+		assert.equals("Last Toninas Garlic's Sea Good Airs Silver's Sea ", barrileteCosmico.cartaDeDestinos()) 
 	}
 	
 	test "Obtener las millas de PHari" {

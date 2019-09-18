@@ -94,7 +94,7 @@ class Empresa{
 	var nombre	
 	var destinos
 	
-	method cartaDeDestinos() = destinos.fold("" , {destino => destino.nombre() + " "})
+	method cartaDeDestinos() = destinos.fold( "" , {inicial, destino => inicial + destino.nombre() + " "})
 	
 	method esEmpresaExtrema() = destinos.any{destino => destino.esPeligroso()}
 	
