@@ -22,17 +22,20 @@ describe "Barrilete Cósmico" {
 	equipajeImprescindible = ["Cerveza", "Protector Solar"],
 	precio = 1500)
 	
-	const barrileteCosmico = new Empresa(
-		nombre = "Barrilete Cósmico",
-		destinos = [lastToninas, garlicsSea, goodAirs, silversSea]
-	)
-	
 	const pabloHari = new Usuario(
 		username = "PHari",
 		destinosConocidos = [lastToninas,goodAirs],
 		saldo = 1500,
 		seguidos = []
 	)	
+	
+	fixture{
+		barrileteCosmico.destinos(garlicsSea)
+		barrileteCosmico.destinos(silversSea)
+		barrileteCosmico.destinos(lastToninas)
+		barrileteCosmico.destinos(goodAirs)			
+	}
+		
 
 	test "Obtener los detinos más importantes de Barrilete Cósmico" {
 		assert.equals([garlicsSea,lastToninas] , barrileteCosmico.destinosDestacados())
@@ -66,7 +69,7 @@ describe "Barrilete Cósmico" {
 	}
 	
 	test "Conocer la carta de destinos de Barrilete Cósmico" {
-		assert.equals("Last Toninas Garlic's Sea Good Airs Silver's Sea ", barrileteCosmico.cartaDeDestinos()) 
+		assert.equals("Garlic's Sea Silver's Sea Last Toninas Good Airs ", barrileteCosmico.cartaDeDestinos()) 
 	}
 	
 	test "Obtener las millas de PHari" {

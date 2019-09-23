@@ -11,8 +11,8 @@ class Destino {
 		return equipajeImprescindible.any({equipaje => equipaje.contains("Vacuna") }) //TODO: ver un stars with con un contains o algo asi
 	}
 	
-	method aplicarDescuento(unDescuento) = { 
-		self.precio(self.precio() - self.precio() * (unDescuento/100))
+	method aplicarDescuento(unDescuento){ 
+		precio = (precio - precio * (unDescuento/100))
 		self.agregarCertificadoDescuento()
 	}
 	
@@ -24,24 +24,29 @@ class Destino {
 		return equipajeImprescindible.contains(unCoso)
 		
 		}
-
 }
 
-
 object barrileteCosmico{
-	var property destinos = []
+	var destinos = []
 	
-	method obtenerDestinosImportantes(){
-		return destinos.map({destino => destino.esDestacado()})
+	method cartaDeDestinos() = destinos.fold( "" , {inicial, destino => inicial + destino.nombre() + " "})
+	
+	method esEmpresaExtrema() = destinos.any{destino => destino.esPeligroso()}
+	
+	method destinosDestacados() = destinos.filter{destino => destino.esDestacado()}
+	
+	method destinosPeligrosos() = destinos.filter{destino => destino.esPeligroso()}
+	
+	method aplicarDescuentoADestinos(unDescuento) = destinos.forEach{destino => 
+		destino.aplicarDescuento(unDescuento)		
 	}
 	
-	
-	method obtenerCartaDeDestinos(){
-		return destinos.map({destino => destino.nombre()})
+	method destinos(unDestino){
+		destinos.add(unDestino)
 	}
 	
-	method agregarDestinos(variosDestinos){
-		destinos = destinos + variosDestinos
+	method destinos(){
+		return destinos
 	}
 }
 
@@ -87,23 +92,4 @@ class Usuario {
 	method saldo() {
 		return saldo
 	}
-}
-
-class Empresa{
-	
-	var nombre	
-	var destinos
-	
-	method cartaDeDestinos() = destinos.fold( "" , {inicial, destino => inicial + destino.nombre() + " "})
-	
-	method esEmpresaExtrema() = destinos.any{destino => destino.esPeligroso()}
-	
-	method destinosDestacados() = destinos.filter{destino => destino.esDestacado()}
-	
-	method destinosPeligrosos() = destinos.filter{destino => destino.esPeligroso()}
-	
-	method aplicarDescuentoADestinos(unDescuento) = destinos.forEach{destino => 
-		destino.aplicarDescuento(unDescuento)		
-	}
-	
 }
