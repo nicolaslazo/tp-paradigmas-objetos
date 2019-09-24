@@ -55,7 +55,7 @@ describe "Barrilete Cósmico" {
 		barrileteCosmico.aplicarDescuentoADestinos(15)
 		assert.equals(2125,garlicsSea.precio())
 		assert.equals(1147.5,silversSea.precio())
-		assert.equals(1275,lastToninas.precio())
+		assert.equals(2975,lastToninas.precio())
 		assert.equals(1275,goodAirs.precio())
 		assert.that(barrileteCosmico.destinos().all({ destino => destino.tieneEnEquipaje("Certificado de descuento")}))		
 	}
