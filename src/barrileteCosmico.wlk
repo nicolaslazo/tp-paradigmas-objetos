@@ -1,10 +1,25 @@
-class Destino {
+class Localidad {
 	var nombre
 	var equipajeImprescindible
 	var property precio
+	var kilometro
 	
 	method nombre() {
 		return nombre
+	}
+	
+	method kilometro() {
+		return kilometro
+	}
+	
+	method distancia(otraLocalidad) {
+		var otroKilometro = otraLocalidad.kilometro()
+		if (kilometro >= otroKilometro) {
+			return kilometro - otroKilometro
+		}
+		else {
+			return otroKilometro - kilometro
+		}
 	}
 	
 	method esDestacado() {
@@ -60,7 +75,9 @@ class Usuario {
 	var destinosConocidos
 	var saldo
 	var seguidos
+	var localidad
 	
+	method localidad() = localidad
 	
 	method puedeVolar(unDestino) {
 		return  saldo > unDestino.precio()
