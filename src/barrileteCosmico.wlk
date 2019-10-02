@@ -1,7 +1,11 @@
 class Destino {
-	var property nombre
+	var nombre
 	var equipajeImprescindible
 	var property precio
+	
+	method nombre() {
+		return nombre
+	}
 	
 	method esDestacado() {
 		return precio > 2000
@@ -17,7 +21,7 @@ class Destino {
 	}
 	
 	method agregarCertificadoDescuento() {
-		return  equipajeImprescindible.add("Certificado de descuento")
+		equipajeImprescindible.add("Certificado de descuento")
 	}
 	
 	method tieneEnEquipaje(unCoso) {
@@ -29,9 +33,9 @@ class Destino {
 object barrileteCosmico{
 	var destinos = []
 	
-	method cartaDeDestinos() = destinos.fold( "" , {inicial, destino => inicial + destino.nombre() + " "})
+	method cartaDeDestinos() = destinos.map{ destino => destino.nombre() }.join()
 	
-	method esEmpresaExtrema() = destinos.any{destino => destino.esPeligroso()}
+	method esEmpresaExtrema() = self.destinosDestacados().any{destino => destino.esPeligroso()}
 	
 	method destinosDestacados() = destinos.filter{destino => destino.esDestacado()}
 	
@@ -59,17 +63,19 @@ class Usuario {
 	
 	
 	method puedeVolar(unDestino) {
-	
 		return  saldo > unDestino.precio()
-	
 	}
 	method volar(destino) {
 		if (self.puedeVolar(destino)) {
+			self.validarSaldo(destino)
 			destinosConocidos.add(destino)
 			saldo -= destino.precio()
 		}
-		else {
-			// TODO: Agregar excepción en el caso de que no se tenga saldo
+	}
+	
+	method validarSaldo(destino) {
+		if (saldo < destino.precio()) {
+			// TODO: tirar excepción
 		}
 	}
 	
@@ -78,12 +84,13 @@ class Usuario {
 	}
 	
 	method seguirUsuario(usuario) {
-		//if (usuario == self) {     --lo comente porque no lo toma bien
-			// TODO: Tirar excepción
-		//}		
 		seguidos.add(usuario)
-		usuario.seguirUsuario(self)
+		usuario.followBack(self)
 	}	
+	
+	method followBack(usuario) {
+		seguidos.add(usuario)
+	}
 	
 	method destinosConocidos() {
 		return destinosConocidos
