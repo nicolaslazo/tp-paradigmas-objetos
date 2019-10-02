@@ -48,7 +48,7 @@ describe "Barrilete Cósmico" {
 	}
 	
 	test "Averiguo si Silver's Sea es un destino peligroso, no lo es" {
-		assert.that(silversSea.esPeligroso().negate()) 
+		assert.notThat(silversSea.esPeligroso()) 
 	}
 	
 	test "Aplicar un descuento del 15% a todos los destinos de Barrilete Cósmico" {
