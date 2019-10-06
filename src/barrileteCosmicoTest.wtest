@@ -2,32 +2,48 @@ import barrileteCosmico.*
 
 describe "Barrilete Cósmico" {	
 	
-	const garlicsSea = new Destino(
+	const garlicsSea = new Localidad(
 	nombre = "Garlic's Sea",
 	equipajeImprescindible = ["Caña de Pescar, Piloto"],
-	precio = 2500)
+	precio = 2500,
+	kilometro = 550)
 
-	const silversSea = new Destino(
+	const silversSea = new Localidad(
 	nombre = "Silver's Sea",
 	equipajeImprescindible = ["Protector Solar","Equipo de Buceo"],
-	precio = 1350)
+	precio = 1350,
+	kilometro = 650)
 
-	const lastToninas = new Destino(
+	const lastToninas = new Localidad(
 	nombre = "Last Toninas",
 	equipajeImprescindible = ["Vacuna Gripal", "Vacuna B", "Necronomicon"],
-	precio = 3500)
+	precio = 3500,
+	kilometro = 530)
 
-	const goodAirs = new Destino(
+	const goodAirs = new Localidad(
 	nombre = "Good Airs",
 	equipajeImprescindible = ["Cerveza", "Protector Solar"],
-	precio = 1500)
+	precio = 1500,
+	kilometro = 100)
 	
 	const pabloHari = new Usuario(
-		username = "PHari",
-		destinosConocidos = [lastToninas,goodAirs],
+		userName = "PHari",
+		viajes = [lastToninas,goodAirs],
 		saldo = 1500,
-		seguidos = []
+		seguidos = [],
+		localidadDeOrigen = goodAirs
 	)	
+	
+	const bondi = new MedioDeTransporte(
+		costoPorKm = 4,
+		tiempo  = 300
+	)
+	
+	const deAjoABsAs = new Viaje(
+		localidadOrigen = garlicsSea,
+		localidadDestino = goodAirs,
+		medioDeTransporte = bondi
+	)
 	
 	fixture{
 		barrileteCosmico.destinos(garlicsSea)
@@ -69,7 +85,7 @@ describe "Barrilete Cósmico" {
 	}
 	
 	test "Conocer la carta de destinos de Barrilete Cósmico" {
-		assert.equals("Garlic's Sea Silver's Sea Last Toninas Good Airs ", barrileteCosmico.cartaDeDestinos()) 
+		assert.equals("Garlic's Sea,Silver's Sea,Last Toninas,Good Airs", barrileteCosmico.cartaDeDestinos()) 
 	}
 	
 	test "Obtener las millas de PHari" {
@@ -77,13 +93,23 @@ describe "Barrilete Cósmico" {
 	}
 	
 	test "Hacer que PHari vuele a Silver 's Sea." {
-		assert.that(pabloHari.puedeVolar(silversSea)) 
+		assert.that(pabloHari.puedeViajar(silversSea)) 
 		
-		pabloHari.volar(silversSea)
+		pabloHari.viajar(silversSea)
 		
-		assert.that(pabloHari.destinosConocidos().contains(silversSea)) 
+		assert.that(pabloHari.viajes().contains(silversSea)) 
 		assert.equals(150, pabloHari.saldo()) 
 	}	
+	//Test Entrega 2
 	
+	test "La distancia entre Garlic's Sea y Good Airs es de 450" {
+		assert.equals(450 ,goodAirs.distanciaA(garlicsSea)) 
+	}
+	
+	test "El precio de un viaje desde Garlic's Sea a Good Airs en bondi es de 3300" {
+		assert.equals(3300 ,deAjoABsAs.precio()) 
+	}	
+	
+	//TODO: Agregar test de armar un viaje
 	
 }

@@ -30,34 +30,54 @@ class MedioDeTransporte {
 	method tiempo() = tiempo
 }
 
+class Viaje{
+	var localidadOrigen
+	var localidadDestino
+	var medioDeTransporte	
+	
+	
+	method precio() = localidadDestino.precio() + localidadOrigen.distanciaA(localidadDestino) * medioDeTransporte.costoPorKm()	
+	
+}
+
 object barrileteCosmico {
-	var destinos = []
+	var localidades = []
 	
-	method cartaDeDestinos() = destinos.map{ destino => destino.nombre() }.join()
-	method esEmpresaExtrema() = self.destinosDestacados().any{destino => destino.esPeligroso()}
-	method destinosDestacados() = destinos.filter{destino => destino.esDestacado()}
-	method destinosPeligrosos() = destinos.filter{destino => destino.esPeligroso()}
-	method destinos(unDestino) = destinos.add(unDestino)
-	method destinos() = destinos
+	//TODO: revisar esto
+	method armarUnViaje(unUsuario,unDestino) = { 
+		var nuevoViaje = new Viaje()
+		nuevoViaje.localidadOrigen(unUsuario.localidadOrigen())
+		nuevoViaje.localidadDestino(unDestino)
+		nuevoViaje.medioDeTransporte(localidades.get(0))//como obtener random?		
+		return nuevoViaje
+	}
 	
-	method aplicarDescuentoADestinos(unDescuento) = destinos.forEach{destino => 
+	method cartaDeDestinos() = localidades.map{ localidad => localidad.nombre() }.join()
+	method esEmpresaExtrema() = self.destinosDestacados().any{localidad => localidad.esPeligroso()}
+	method destinosDestacados() = localidades.filter{localidad => localidad.esDestacado()}
+	method destinosPeligrosos() = localidades.filter{localidad => localidad.esPeligroso()}
+	method destinos(unaLocalidad) = localidades.add(unaLocalidad)
+	method destinos() = localidades
+	
+	method aplicarDescuentoADestinos(unDescuento) = localidades.forEach{destino => 
 		destino.aplicarDescuento(unDescuento)		
 	}
 }
 
 
 class Usuario {
-	var username
+	var userName
 	var viajes
 	var saldo
 	var seguidos
-	var localidadDeOrigen
+	var localidadDeOrigen	
 	
-	method puedeViajar(unDestino) {
-		if (saldo < unDestino.precio()) throw new Exception(message="Saldo insuficiente") // De vuelta, no UserException?
+	
+	method puedeViajar(unDestino) {		
+		if (saldo < unDestino.precio()) throw new Exception(message="Saldo insuficiente") else return true // De vuelta, no UserException?
 	}
 	
-	method volar(destino) {
+	method viajar(destino) {
 		self.puedeViajar(destino)
 		viajes.add(destino)
 		saldo -= destino.precio()
