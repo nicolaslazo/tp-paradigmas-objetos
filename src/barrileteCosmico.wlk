@@ -4,100 +4,63 @@ class Localidad {
 	var property precio
 	var kilometro
 	
-	method nombre() {
-		return nombre
-	}
-	
-	method kilometro() {
-		return kilometro
-	}
-	
-	method distancia(otraLocalidad) {
-		var otroKilometro = otraLocalidad.kilometro()
-		if (kilometro >= otroKilometro) {
-			return kilometro - otroKilometro
-		}
-		else {
-			return otroKilometro - kilometro
-		}
-	}
-	
-	method esDestacado() {
-		return precio > 2000
-	}
-	
-	method esPeligroso() {
-		return equipajeImprescindible.any({equipaje => equipaje.contains("Vacuna") }) //TODO: ver un stars with con un contains o algo asi
-	}
+	method nombre() = nombre
+	method kilometro() = kilometro
+	method esDestacado() = precio > 2000
+	method esPeligroso() = equipajeImprescindible.any({equipaje => equipaje.contains("Vacuna") })
+	method agregarCertificadoDescuento() = equipajeImprescindible.add("Certificado de descuento")
+	method tieneEnEquipaje(unCoso) = equipajeImprescindible.contains(unCoso)
 	
 	method aplicarDescuento(unDescuento){ 
-		precio = (precio - precio * (unDescuento/100))
+		precio = (precio - precio * (unDescuento / 100))
 		self.agregarCertificadoDescuento()
 	}
 	
-	method agregarCertificadoDescuento() {
-		equipajeImprescindible.add("Certificado de descuento")
+	method distanciaA(otraLocalidad) {
+		var otroKilometro = otraLocalidad.kilometro()
+		return (otroKilometro - kilometro).abs()
 	}
-	
-	method tieneEnEquipaje(unCoso) {
-		return equipajeImprescindible.contains(unCoso)
-		
-		}
 }
 
-object barrileteCosmico{
+class MedioDeTransporte {
+	var costoPorKm
+	var tiempo
+	
+	method costoPorKm() = costoPorKm
+	method tiempo() = tiempo
+}
+
+object barrileteCosmico {
 	var destinos = []
 	
 	method cartaDeDestinos() = destinos.map{ destino => destino.nombre() }.join()
-	
 	method esEmpresaExtrema() = self.destinosDestacados().any{destino => destino.esPeligroso()}
-	
 	method destinosDestacados() = destinos.filter{destino => destino.esDestacado()}
-	
 	method destinosPeligrosos() = destinos.filter{destino => destino.esPeligroso()}
+	method destinos(unDestino) = destinos.add(unDestino)
+	method destinos() = destinos
 	
 	method aplicarDescuentoADestinos(unDescuento) = destinos.forEach{destino => 
 		destino.aplicarDescuento(unDescuento)		
-	}
-	
-	method destinos(unDestino){
-		destinos.add(unDestino)
-	}
-	
-	method destinos(){
-		return destinos
 	}
 }
 
 
 class Usuario {
 	var username
-	var destinosConocidos
+	var viajes
 	var saldo
 	var seguidos
-	var localidad
+	var localidadDeOrigen
 	
-	method localidad() = localidad
-	
-	method puedeVolar(unDestino) {
-		return  saldo > unDestino.precio()
+	method puedeViajar(unDestino) {
+		if (saldo < unDestino.precio()) throw new Exception(message="Saldo insuficiente") // De vuelta, no UserException?
 	}
+	
 	method volar(destino) {
-		if (self.puedeVolar(destino)) {
-			self.validarSaldo(destino)
-			destinosConocidos.add(destino)
-			saldo -= destino.precio()
-		}
-	}
-	
-	method validarSaldo(destino) {
-		if (saldo < destino.precio()) {
-			// TODO: tirar excepción
-		}
-	}
-	
-	method kilometros() {
-		return destinosConocidos.sum({ destino => destino.precio() }) * 0.1
+		self.puedeViajar(destino)
+		viajes.add(destino)
+		saldo -= destino.precio()
 	}
 	
 	method seguirUsuario(usuario) {
@@ -105,15 +68,9 @@ class Usuario {
 		usuario.followBack(self)
 	}	
 	
-	method followBack(usuario) {
-		seguidos.add(usuario)
-	}
-	
-	method destinosConocidos() {
-		return destinosConocidos
-	}
-	
-	method saldo() {
-		return saldo
-	}
+	method localidadDeOrigen() = localidadDeOrigen
+	method kilometros() = viajes.sum({ destino => destino.precio() }) * 0.1
+	method followBack(usuario) = seguidos.add(usuario)
+	method viajes() = viajes
+	method saldo() = saldo
 }
