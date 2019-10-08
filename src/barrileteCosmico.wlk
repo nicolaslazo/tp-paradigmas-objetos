@@ -31,25 +31,29 @@ class MedioDeTransporte {
 }
 
 class Viaje{
-	var localidadOrigen
-	var localidadDestino
-	var medioDeTransporte	
-	
+	var property localidadOrigen
+	var property localidadDestino
+	var property medioDeTransporte	
 	
 	method precio() = localidadDestino.precio() + localidadOrigen.distanciaA(localidadDestino) * medioDeTransporte.costoPorKm()	
-	
+
 }
 
 object barrileteCosmico {
 	var localidades = []
+	var mediosDeTransporte = []
 	
 	//TODO: revisar esto
 	method armarUnViaje(unUsuario,unDestino) = { 
 		var nuevoViaje = new Viaje()
-		nuevoViaje.localidadOrigen(unUsuario.localidadOrigen())
+		nuevoViaje.localidadOrigen(unUsuario.localidadDeOrigen())
 		nuevoViaje.localidadDestino(unDestino)
-		nuevoViaje.medioDeTransporte(localidades.get(0))//como obtener random?		
+		nuevoViaje.medioDeTransporte(mediosDeTransporte.get(self.generarNumeroAlAzar()))		
 		return nuevoViaje
+	}
+	
+	method generarNumeroAlAzar(){
+		return new Range(start = 0, end = mediosDeTransporte.size() - 1).anyOne()
 	}
 	
 	method cartaDeDestinos() = localidades.map{ localidad => localidad.nombre() }.join()
@@ -62,6 +66,8 @@ object barrileteCosmico {
 	method aplicarDescuentoADestinos(unDescuento) = localidades.forEach{destino => 
 		destino.aplicarDescuento(unDescuento)		
 	}
+	
+	method mediosDeTransporte(unMedioDeTransporte) = mediosDeTransporte.add(unMedioDeTransporte)
 }
 
 

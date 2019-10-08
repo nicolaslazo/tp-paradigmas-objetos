@@ -49,7 +49,8 @@ describe "Barrilete Cósmico" {
 		barrileteCosmico.destinos(garlicsSea)
 		barrileteCosmico.destinos(silversSea)
 		barrileteCosmico.destinos(lastToninas)
-		barrileteCosmico.destinos(goodAirs)			
+		barrileteCosmico.destinos(goodAirs)
+		barrileteCosmico.mediosDeTransporte(bondi)			
 	}
 		
 
