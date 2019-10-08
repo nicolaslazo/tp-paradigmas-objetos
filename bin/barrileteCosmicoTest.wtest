@@ -111,6 +111,8 @@ describe "Barrilete Cósmico" {
 		assert.equals(3300 ,deAjoABsAs.precio()) 
 	}	
 	
-	//TODO: Agregar test de armar un viaje
-	
+	test "La localidad de origen de un viaje armado para PHari es Good Airs"{
+		var unViaje = barrileteCosmico.armarUnViaje(pabloHari, garlicsSea)
+		assert.equals(goodAirs, unViaje.localidadOrigen())
+	}	
 }

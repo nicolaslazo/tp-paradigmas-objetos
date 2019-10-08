@@ -13,7 +13,7 @@ class Localidad {
 	
 	method aplicarDescuento(unDescuento){ 
 		precio = (precio - precio * (unDescuento / 100))
-		self.agregarCertificadoDescuento()
+		return self.agregarCertificadoDescuento()
 	}
 	
 	method distanciaA(otraLocalidad) {
@@ -32,29 +32,32 @@ class MedioDeTransporte {
 
 class Viaje{
 	var property localidadOrigen
-	var property localidadDestino
-	var property medioDeTransporte	
+	var localidadDestino
+	var medioDeTransporte	
 	
 	method precio() = localidadDestino.precio() + localidadOrigen.distanciaA(localidadDestino) * medioDeTransporte.costoPorKm()	
 
+	method localidadDestino(unDestino){
+		localidadDestino = unDestino
+	}
+	
+	method medioDeTransporte(unMedioDeTransporte){
+		medioDeTransporte = (unMedioDeTransporte)
+	}
 }
 
 object barrileteCosmico {
 	var localidades = []
 	var mediosDeTransporte = []
-	
-	//TODO: revisar esto
-	method armarUnViaje(unUsuario,unDestino) = { 
+
+	method armarUnViaje(unUsuario,unDestino){ 
 		var nuevoViaje = new Viaje()
 		nuevoViaje.localidadOrigen(unUsuario.localidadDeOrigen())
 		nuevoViaje.localidadDestino(unDestino)
-		nuevoViaje.medioDeTransporte(mediosDeTransporte.get(self.generarNumeroAlAzar()))		
+		nuevoViaje.medioDeTransporte(mediosDeTransporte.anyOne())	
 		return nuevoViaje
 	}
-	
-	method generarNumeroAlAzar(){
-		return new Range(start = 0, end = mediosDeTransporte.size() - 1).anyOne()
-	}
+
 	
 	method cartaDeDestinos() = localidades.map{ localidad => localidad.nombre() }.join()
 	method esEmpresaExtrema() = self.destinosDestacados().any{localidad => localidad.esPeligroso()}
