@@ -64,7 +64,7 @@ object barrileteCosmico {
 	method destinosPeligrosos() = localidades.filter{localidad => localidad.esPeligroso()}
 	method destinos() = localidades
 	
-	method destinos(unaLocalidad) {
+	method agregarLocalidad(unaLocalidad) {
 		localidades.add(unaLocalidad)
 	}
 	
@@ -72,7 +72,7 @@ object barrileteCosmico {
 		localidades.forEach({ destino => destino.aplicarDescuento(unDescuento)	})	
 	}
 	
-	method mediosDeTransporte(unMedioDeTransporte) {
+	method agregarMedioDeTransporte(unMedioDeTransporte) {
 		mediosDeTransporte.add(unMedioDeTransporte)
 	}
 }
