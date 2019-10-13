@@ -31,19 +31,11 @@ class MedioDeTransporte {
 }
 
 class Viaje{
-	var property localidadOrigen
+	var localidadOrigen
 	var localidadDestino
 	var medioDeTransporte	
 	
-	method precio() = localidadDestino.precio() + localidadOrigen.distanciaA(localidadDestino) * medioDeTransporte.costoPorKm()	
-
-	method localidadDestino(unDestino){
-		localidadDestino = unDestino
-	}
-	
-	method medioDeTransporte(unMedioDeTransporte){
-		medioDeTransporte = (unMedioDeTransporte)
-	}
+	method precio() = localidadDestino.precio() + localidadOrigen.distanciaA(localidadDestino) * medioDeTransporte.costoPorKm()
 }
 
 object barrileteCosmico {
@@ -51,10 +43,12 @@ object barrileteCosmico {
 	var mediosDeTransporte = []
 
 	method armarUnViaje(unUsuario,unDestino){ 
-		var nuevoViaje = new Viaje()
-		nuevoViaje.localidadOrigen(unUsuario.localidadDeOrigen())
-		nuevoViaje.localidadDestino(unDestino)
-		nuevoViaje.medioDeTransporte(mediosDeTransporte.anyOne())	
+		var nuevoViaje = new Viaje(
+			localidadOrigen = unUsuario.localidadDeOrigen(),
+			localidadDestino = unDestino,
+			medioDeTransporte = mediosDeTransporte.anyOne()
+		)
+		
 		return nuevoViaje
 	}
 
