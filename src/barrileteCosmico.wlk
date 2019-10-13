@@ -35,6 +35,8 @@ class Viaje{
 	var localidadDestino
 	var medioDeTransporte	
 	
+	method localidadOrigen() = localidadOrigen
+	
 	method precio() = localidadDestino.precio() + localidadOrigen.distanciaA(localidadDestino) * medioDeTransporte.costoPorKm()
 }
 
