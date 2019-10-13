@@ -46,11 +46,11 @@ describe "Barrilete Cósmico" {
 	)
 	
 	fixture{
-		barrileteCosmico.destinos(garlicsSea)
-		barrileteCosmico.destinos(silversSea)
-		barrileteCosmico.destinos(lastToninas)
-		barrileteCosmico.destinos(goodAirs)
-		barrileteCosmico.mediosDeTransporte(bondi)			
+		barrileteCosmico.agregarLocalidad(garlicsSea)
+		barrileteCosmico.agregarLocalidad(silversSea)
+		barrileteCosmico.agregarLocalidad(lastToninas)
+		barrileteCosmico.agregarLocalidad(goodAirs)
+		barrileteCosmico.agregarMedioDeTransporte(bondi)			
 	}
 		
 
