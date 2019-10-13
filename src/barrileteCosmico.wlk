@@ -83,7 +83,7 @@ class Usuario {
 	
 	
 	method puedeViajar(unDestino) {		
-		if (saldo < unDestino.precio()) throw new Exception(message="Saldo insuficiente") else return true // De vuelta, no UserException?
+		if (saldo < unDestino.precio()) throw new Exception(message="Saldo insuficiente")
 	}
 	
 	method viajar(destino) {
