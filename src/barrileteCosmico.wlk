@@ -78,14 +78,14 @@ class Usuario {
 	var localidadDeOrigen	
 	
 	
-	method puedeViajar(unDestino) {		
-		if (saldo < unDestino.precio()) throw new Exception(message="Saldo insuficiente")
+	method puedeViajar(viaje) {		
+		if (saldo < viaje.precio()) throw new Exception(message="Saldo insuficiente")
 	}
 	
-	method viajar(destino) {
-		self.puedeViajar(destino)
-		viajes.add(destino)
-		saldo -= destino.precio()
+	method viajar(viaje) {
+		self.puedeViajar(viaje)
+		viajes.add(viaje)
+		saldo -= viaje.precio()
 	}
 	
 	method seguirUsuario(usuario) {
