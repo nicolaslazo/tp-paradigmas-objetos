@@ -7,13 +7,16 @@ class Localidad {
 	method nombre() = nombre
 	method kilometro() = kilometro
 	method esDestacado() = precio > 2000
-	method esPeligroso() = equipajeImprescindible.any({equipaje => equipaje.contains("Vacuna") })
-	method agregarCertificadoDescuento() = equipajeImprescindible.add("Certificado de descuento")
+	method esPeligroso() = equipajeImprescindible.any({ equipaje => equipaje.contains("Vacuna") })
 	method tieneEnEquipaje(unCoso) = equipajeImprescindible.contains(unCoso)
+	
+	method agregarCertificadoDescuento() {
+		equipajeImprescindible.add("Certificado de descuento")
+	}
 	
 	method aplicarDescuento(unDescuento){ 
 		precio = (precio - precio * (unDescuento / 100))
-		return self.agregarCertificadoDescuento()
+		self.agregarCertificadoDescuento()
 	}
 	
 	method distanciaA(otraLocalidad) {
@@ -59,14 +62,19 @@ object barrileteCosmico {
 	method esEmpresaExtrema() = self.destinosDestacados().any{localidad => localidad.esPeligroso()}
 	method destinosDestacados() = localidades.filter{localidad => localidad.esDestacado()}
 	method destinosPeligrosos() = localidades.filter{localidad => localidad.esPeligroso()}
-	method destinos(unaLocalidad) = localidades.add(unaLocalidad)
 	method destinos() = localidades
 	
-	method aplicarDescuentoADestinos(unDescuento) = localidades.forEach{destino => 
-		destino.aplicarDescuento(unDescuento)		
+	method destinos(unaLocalidad) {
+		localidades.add(unaLocalidad)
 	}
 	
-	method mediosDeTransporte(unMedioDeTransporte) = mediosDeTransporte.add(unMedioDeTransporte)
+	method aplicarDescuentoADestinos(unDescuento) {
+		localidades.forEach({ destino => destino.aplicarDescuento(unDescuento)	})	
+	}
+	
+	method mediosDeTransporte(unMedioDeTransporte) {
+		mediosDeTransporte.add(unMedioDeTransporte)
+	}
 }
 
 
@@ -95,7 +103,10 @@ class Usuario {
 	
 	method localidadDeOrigen() = localidadDeOrigen
 	method kilometros() = viajes.sum({ destino => destino.precio() }) * 0.1
-	method followBack(usuario) = seguidos.add(usuario)
 	method viajes() = viajes
 	method saldo() = saldo
+	
+	method followBack(usuario) {
+		seguidos.add(usuario)
+	}
 }
