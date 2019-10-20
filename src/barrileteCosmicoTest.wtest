@@ -31,7 +31,9 @@ describe "Barrilete Cósmico" {
 		viajes = [lastToninas,goodAirs],
 		saldo = 1500,
 		seguidos = [],
-		localidadDeOrigen = goodAirs
+		localidadDeOrigen = goodAirs,
+		mochila = [],
+		perfil = "Empresario"
 	)	
 	
 	const bondi = new MedioDeTransporte(
@@ -114,5 +116,13 @@ describe "Barrilete Cósmico" {
 	test "La localidad de origen de un viaje armado para PHari es Good Airs"{
 		var unViaje = barrileteCosmico.armarUnViaje(pabloHari, garlicsSea)
 		assert.equals(goodAirs, unViaje.localidadOrigen())
+	}	
+	
+	test "La localidad de origen de pablo luego de viajar a Silver 's Sea sera esa localidad" {
+		assert.that(pabloHari.puedeViajar(silversSea)) 
+		
+		pabloHari.viajar(silversSea)
+		
+		assert.that(pabloHari.localidadDeOrigen() == silversSea) 		
 	}	
 }
