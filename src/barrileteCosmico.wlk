@@ -8,9 +8,7 @@ class Localidad {
 	method kilometro() = kilometro
 	method esDestacado() = precio > 2000
 	method esPeligroso() = equipajeImprescindible.any({equipaje => equipaje.contains("Vacuna") })
-	method agregarCertificadoDescuento() {
-		equipajeImprescindible.add("Certificado de descuento")
-	}
+	method agregarCertificadoDescuento() = equipajeImprescindible.add("Certificado de descuento")
 	method tieneEnEquipaje(unCoso) = equipajeImprescindible.contains(unCoso)
 	
 	method aplicarDescuento(unDescuento){ 
@@ -105,7 +103,8 @@ object barrileteCosmico {
 	method cartaDeDestinos() = localidades.map{ localidad => localidad.nombre() }.join()
 	method esEmpresaExtrema() = self.destinosDestacados().any{localidad => localidad.esPeligroso()}
 	method destinosDestacados() = localidades.filter{localidad => localidad.esDestacado()}
-	method destinosPeligrosos() = localidades.filter{localidad => localidad.esPeligroso()}	
+	method destinosPeligrosos() = localidades.filter{localidad => localidad.esPeligroso()}
+	method destinos(unaLocalidad) = localidades.add(unaLocalidad)
 	method destinos() = localidades
 	
 	method aplicarDescuentoADestinos(unDescuento) = localidades.forEach{destino => 
