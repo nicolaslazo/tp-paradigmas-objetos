@@ -25,6 +25,20 @@ class Localidad {
 	}
 }
 
+class Montania inherits Localidad{
+	var altura
+	override method esDestacado() = true
+	override method esPeligroso() = super().esPeligroso() && altura > 5000
+}
+class Playa inherits Localidad{
+	override method esPeligroso() = false
+}
+class CiudadHistorica inherits Localidad{
+	var museos
+	override method esPeligroso() = equipajeImprescindible.any({equipaje => equipaje.contains("Seguro asistencia al viajero") }).negate()
+	override method esDestacado() = super().esDestacado() && museos.count() > 3
+}
+
 class MedioDeTransporte {
 	var costoPorKm
 	var tiempo
@@ -33,14 +47,41 @@ class MedioDeTransporte {
 	method tiempo() = tiempo
 }
 
+
+object micro inherits MedioDeTransporte{
+	override method costoPorKm() = 5000	
+}
+
+class Avion inherits MedioDeTransporte{
+	var turbinas
+	override method costoPorKm() =  turbinas.sum({ turbina => turbina.nivelImpulso() })
+}
+
+class Turbina{
+	var nivelImpulso
+}
+
+class Barco inherits MedioDeTransporte{
+	var probabilidadChoque
+	override method costoPorKm() =  probabilidadChoque * 1000
+}
+
+object tren inherits MedioDeTransporte{
+	override method costoPorKm() =  1429.1533
+	
+}
+
 class Viaje{
 	var localidadOrigen
 	var localidadDestino
 	var medioDeTransporte	
 	
 	method localidadOrigen() = localidadOrigen
+	method localidadDestino() = localidadDestino	
 	
-	method precio() = localidadDestino.precio() + localidadOrigen.distanciaA(localidadDestino) * medioDeTransporte.costoPorKm()
+	method distanciaViaje() = localidadOrigen.distanciaA(localidadDestino)
+	
+	method precio() = medioDeTransporte.costoEntreLocalidades(self.distanciaViaje()) + localidadDestino.precio()
 }
 
 object barrileteCosmico {
@@ -51,7 +92,7 @@ object barrileteCosmico {
 		var nuevoViaje = new Viaje(
 			localidadOrigen = unUsuario.localidadDeOrigen(),
 			localidadDestino = unDestino,
-			medioDeTransporte = mediosDeTransporte.anyOne()
+			medioDeTransporte = unUsuario.eleccionMedioDeTransporte(mediosDeTransporte)
 		)
 		
 		return nuevoViaje
@@ -83,17 +124,30 @@ class Usuario {
 	var viajes
 	var saldo
 	var seguidos
-	var localidadDeOrigen	
+	var localidadDeOrigen
+	var perfil
+	var mochila
 	
+	method tieneSaldo(unDestino) = {
+		if (saldo < unDestino.precio()) throw new Exception(message="Saldo insuficiente")
+	}
+	method validarEquipajeImprecindible(unDestino){		
+		if (self.tieneEquipajeImprecinfible(unDestino).negate()) throw new Exception(message="No tiene equipaje necesario")
+	}
+	method tieneEquipajeImprecinfible(unDestino){
+		return mochila.contains(unDestino.equipajeImprescindible())
+	}
 	
-	method puedeViajar(viaje) {		
-		if (saldo < viaje.precio()) throw new Exception(message="Saldo insuficiente")
+	method puedeViajar(unDestino) {		
+		self.tieneSaldo(unDestino)
+		self.validarEquipajeImprecindible(unDestino)
 	}
 	
 	method viajar(viaje) {
 		self.puedeViajar(viaje)
 		viajes.add(viaje)
 		saldo -= viaje.precio()
+		localidadDeOrigen = viaje.localidadDeDestino() //#8
 	}
 	
 	method seguirUsuario(usuario) {
@@ -102,7 +156,7 @@ class Usuario {
 	}	
 	
 	method localidadDeOrigen() = localidadDeOrigen
-	method kilometros() = viajes.sum({ destino => destino.precio() }) * 0.1
+	method kilometros() = viajes.sum({ viaje => viaje.distanciaViaje() }) //#8
 	method viajes() = viajes
 	method saldo() = saldo
 	
