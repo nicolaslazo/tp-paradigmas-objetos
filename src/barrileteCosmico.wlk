@@ -6,6 +6,7 @@ class Localidad {
 	
 	method nombre() = nombre
 	method kilometro() = kilometro
+	method equipajeImprescindible() = equipajeImprescindible
 	method esDestacado() = precio > 2000
 	method esPeligroso() = equipajeImprescindible.any({ equipaje => equipaje.contains("Vacuna") })
 	method tieneEnEquipaje(unCoso) = equipajeImprescindible.contains(unCoso)
@@ -45,6 +46,7 @@ class MedioDeTransporte {
 	
 	method costoPorKm() = costoPorKm
 	method tiempo() = tiempo
+	method costoEntreLocalidades(distancia) = costoPorKm * distancia
 }
 
 
@@ -89,13 +91,11 @@ object barrileteCosmico {
 	var mediosDeTransporte = []
 
 	method armarUnViaje(unUsuario,unDestino){ 
-		var nuevoViaje = new Viaje(
+		return new Viaje(
 			localidadOrigen = unUsuario.localidadDeOrigen(),
 			localidadDestino = unDestino,
 			medioDeTransporte = unUsuario.eleccionMedioDeTransporte(mediosDeTransporte)
 		)
-		
-		return nuevoViaje
 	}
 
 	
@@ -131,16 +131,18 @@ class Usuario {
 	method tieneSaldo(unDestino) = {
 		if (saldo < unDestino.precio()) throw new Exception(message="Saldo insuficiente")
 	}
-	method validarEquipajeImprecindible(unDestino){		
-		if (self.tieneEquipajeImprecinfible(unDestino).negate()) throw new Exception(message="No tiene equipaje necesario")
+	
+	method validarEquipajeImprescindible(unDestino){		
+		if (self.tieneEquipajeImprescindible(unDestino).negate()) throw new Exception(message="No tiene equipaje necesario")
 	}
-	method tieneEquipajeImprecinfible(unDestino){
-		return mochila.contains(unDestino.equipajeImprescindible())
-	}
+	
+	method tieneEquipajeImprescindible(unDestino) = unDestino.equipajeImprescindible().all({ item => mochila.contains(item) })
 	
 	method puedeViajar(unDestino) {		
 		self.tieneSaldo(unDestino)
-		self.validarEquipajeImprecindible(unDestino)
+		self.validarEquipajeImprescindible(unDestino)
+		
+		return true
 	}
 	
 	method viajar(viaje) {
@@ -163,4 +165,26 @@ class Usuario {
 	method followBack(usuario) {
 		seguidos.add(usuario)
 	}
+	
+	method eleccionMedioDeTransporte(mediosDeTransporte) {
+		perfil.elegirMedioDeTransporte(self, mediosDeTransporte)
+	}
+}
+
+class Perfil {
+	method elegirMedioDeTransporte(usuario, mediosDeTransporte)
+}
+
+object perfilEmpresarial inherits Perfil {
+	method elegirMedioDeTransporte(usuario, mediosDeTransporte) = mediosDeTransporte.first() // TODO: Implementar correctamente
+}
+
+object perfilEstudiantil inherits Perfil {
+	method elegirMedioDeTransporte(usuario, mediosDeTransporte) = self.elMasRapido(self.filtrarCosteables(usuario, mediosDeTransporte))
+	method filtrarCosteables(usuario, mediosDeTransporte) = mediosDeTransporte.filter({ medio => })
+	// TODO: Completar
+}
+
+object perfilFamiliar inherits Perfil {
+	method elegirMedioDeTransporte(usuario, mediosDeTransporte) = mediosDeTransporte.anyOne()
 }
