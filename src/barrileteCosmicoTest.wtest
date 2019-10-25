@@ -26,15 +26,17 @@ describe "Barrilete Cósmico" {
 	precio = 1500,
 	kilometro = 100)
 	
+	
+	
 	const pabloHari = new Usuario(
 		userName = "PHari",
-		viajes = [lastToninas,goodAirs],
+		viajes = [],
 		saldo = 1500,
 		seguidos = [],
 		localidadDeOrigen = goodAirs,
 		mochila = ["Protector Solar","Equipo de Buceo"],
 		perfil = perfilEmpresarial
-	)	
+	)
 	
 	const bondi = new MedioDeTransporte(
 		costoPorKm = 4,
@@ -52,11 +54,11 @@ describe "Barrilete Cósmico" {
 		barrileteCosmico.agregarLocalidad(silversSea)
 		barrileteCosmico.agregarLocalidad(lastToninas)
 		barrileteCosmico.agregarLocalidad(goodAirs)
-		barrileteCosmico.agregarMedioDeTransporte(bondi)			
+		barrileteCosmico.agregarMedioDeTransporte(bondi)
 	}
 		
 
-	test "Obtener los detinos más importantes de Barrilete Cósmico" {
+	test "Obtener los destinos más importantes de Barrilete Cósmico" {
 		assert.equals([garlicsSea,lastToninas] , barrileteCosmico.destinosDestacados())
 	}
 	
@@ -91,8 +93,13 @@ describe "Barrilete Cósmico" {
 		assert.equals("Garlic's Sea,Silver's Sea,Last Toninas,Good Airs", barrileteCosmico.cartaDeDestinos()) 
 	}
 	
-	test "Obtener las millas de PHari" {
-		assert.equals(500, pabloHari.kilometros()) 
+	test "Obtener los kilometros de PHari" {
+		var pHariDeBsAsAToninas = barrileteCosmico.armarUnViaje(pabloHari, lastToninas)	
+		pabloHari.viajar(pHariDeBsAsAToninas)
+		var pHariDeToninasABsAs = barrileteCosmico.armarUnViaje(pabloHari, goodAirs)
+		pabloHari.viajar(pHariDeToninasABsAs)
+		
+		assert.equals(860, pabloHari.kilometros()) 
 	}
 	
 	test "Hacer que PHari vuele a Silver 's Sea." {
@@ -117,10 +124,13 @@ describe "Barrilete Cósmico" {
 		var unViaje = barrileteCosmico.armarUnViaje(pabloHari, garlicsSea)
 		assert.equals(goodAirs, unViaje.localidadOrigen())
 	}	
+	
 	test "La localidad de origen de pablo luego de viajar a Silver 's Sea sera esa localidad" {
 		assert.that(pabloHari.puedeViajar(silversSea)) 
 		
-		pabloHari.viajar(silversSea)
+		var viaje = barrileteCosmico.armarUnViaje(pabloHari, silversSea)
+		
+		pabloHari.viajar(viaje)
 		
 		assert.equals(pabloHari.localidadDeOrigen(), silversSea) 		
 	}	
