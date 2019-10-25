@@ -1,3 +1,35 @@
+object barrileteCosmico {
+	var localidades = []
+	var mediosDeTransporte = []
+
+	method armarUnViaje(unUsuario,unDestino){ 
+		return new Viaje(
+			localidadOrigen = unUsuario.localidadDeOrigen(),
+			localidadDestino = unDestino,
+			medioDeTransporte = unUsuario.eleccionMedioDeTransporte(unUsuario, localidadOrigen, localidadDestino, mediosDeTransporte)
+		)
+	}
+
+	
+	method cartaDeDestinos() = localidades.map{ localidad => localidad.nombre() }.join()
+	method esEmpresaExtrema() = self.destinosDestacados().any{localidad => localidad.esPeligroso()}
+	method destinosDestacados() = localidades.filter{localidad => localidad.esDestacado()}
+	method destinosPeligrosos() = localidades.filter{localidad => localidad.esPeligroso()}
+	method destinos() = localidades
+	
+	method agregarLocalidad(unaLocalidad) {
+		localidades.add(unaLocalidad)
+	}
+	
+	method aplicarDescuentoADestinos(unDescuento) {
+		localidades.forEach({ destino => destino.aplicarDescuento(unDescuento)	})	
+	}
+	
+	method agregarMedioDeTransporte(unMedioDeTransporte) {
+		mediosDeTransporte.add(unMedioDeTransporte)
+	}
+}
+
 class Localidad {
 	var nombre
 	var equipajeImprescindible
@@ -37,7 +69,7 @@ class Playa inherits Localidad{
 class CiudadHistorica inherits Localidad{
 	var museos
 	override method esPeligroso() = equipajeImprescindible.any({equipaje => equipaje.contains("Seguro asistencia al viajero") }).negate()
-	override method esDestacado() = super().esDestacado() && museos.count() > 3
+	override method esDestacado() = super() && museos.count() > 3
 }
 
 class MedioDeTransporte {
@@ -61,6 +93,8 @@ class Avion inherits MedioDeTransporte{
 
 class Turbina{
 	var nivelImpulso
+	
+	method nivelImpulso() = nivelImpulso
 }
 
 class Barco inherits MedioDeTransporte{
@@ -85,39 +119,6 @@ class Viaje{
 	
 	method precio() = medioDeTransporte.costoEntreLocalidades(self.distanciaViaje()) + localidadDestino.precio()
 }
-
-object barrileteCosmico {
-	var localidades = []
-	var mediosDeTransporte = []
-
-	method armarUnViaje(unUsuario,unDestino){ 
-		return new Viaje(
-			localidadOrigen = unUsuario.localidadDeOrigen(),
-			localidadDestino = unDestino,
-			medioDeTransporte = unUsuario.eleccionMedioDeTransporte(mediosDeTransporte)
-		)
-	}
-
-	
-	method cartaDeDestinos() = localidades.map{ localidad => localidad.nombre() }.join()
-	method esEmpresaExtrema() = self.destinosDestacados().any{localidad => localidad.esPeligroso()}
-	method destinosDestacados() = localidades.filter{localidad => localidad.esDestacado()}
-	method destinosPeligrosos() = localidades.filter{localidad => localidad.esPeligroso()}
-	method destinos() = localidades
-	
-	method agregarLocalidad(unaLocalidad) {
-		localidades.add(unaLocalidad)
-	}
-	
-	method aplicarDescuentoADestinos(unDescuento) {
-		localidades.forEach({ destino => destino.aplicarDescuento(unDescuento)	})	
-	}
-	
-	method agregarMedioDeTransporte(unMedioDeTransporte) {
-		mediosDeTransporte.add(unMedioDeTransporte)
-	}
-}
-
 
 class Usuario {
 	var userName
@@ -166,25 +167,27 @@ class Usuario {
 		seguidos.add(usuario)
 	}
 	
-	method eleccionMedioDeTransporte(mediosDeTransporte) {
-		perfil.elegirMedioDeTransporte(self, mediosDeTransporte)
+	method eleccionMedioDeTransporte(usuario, origen, destino, mediosDeTransporte) {
+		perfil.elegirMedioDeTransporte(usuario, origen, destino, mediosDeTransporte)
+	}
+	
+	method filtrarTransportesCosteables(origen, destino, mediosDeTransporte) {
+		mediosDeTransporte.filter({ medio => new Viaje(localidadOrigen = origen, localidadDestino = destino, medioDeTransporte = medio).precio() <= saldo })
 	}
 }
 
 class Perfil {
-	method elegirMedioDeTransporte(usuario, mediosDeTransporte)
+	method elegirMedioDeTransporte(usuario, origen, destino, mediosDeTransporte)
 }
 
 object perfilEmpresarial inherits Perfil {
-	method elegirMedioDeTransporte(usuario, mediosDeTransporte) = mediosDeTransporte.first() // TODO: Implementar correctamente
+	override method elegirMedioDeTransporte(usuario, origen, destino, mediosDeTransporte) = mediosDeTransporte.min({ medio => medio.tiempo() })
 }
 
 object perfilEstudiantil inherits Perfil {
-	method elegirMedioDeTransporte(usuario, mediosDeTransporte) = self.elMasRapido(self.filtrarCosteables(usuario, mediosDeTransporte))
-	method filtrarCosteables(usuario, mediosDeTransporte) = mediosDeTransporte.filter({ medio => })
-	// TODO: Completar
+	override method elegirMedioDeTransporte(usuario, origen, destino, mediosDeTransporte) = usuario.filtrarTransportesCosteables(origen, destino, mediosDeTransporte).min({ medio => medio.tiempo() })
 }
 
 object perfilFamiliar inherits Perfil {
-	method elegirMedioDeTransporte(usuario, mediosDeTransporte) = mediosDeTransporte.anyOne()
+	override method elegirMedioDeTransporte(usuario, origen, destino, mediosDeTransporte) = mediosDeTransporte.anyOne()
 }
