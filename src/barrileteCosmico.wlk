@@ -116,8 +116,8 @@ class Viaje{
 	method localidadDestino() = localidadDestino	
 	
 	method distanciaViaje() = localidadOrigen.distanciaA(localidadDestino)
-	
 	method precio() = medioDeTransporte.costoEntreLocalidades(self.distanciaViaje()) + localidadDestino.precio()
+	method equipajeImprescindible() = localidadDestino.equipajeImprescindible()
 }
 
 class Usuario {
@@ -129,19 +129,19 @@ class Usuario {
 	var perfil
 	var mochila
 	
-	method tieneSaldo(unDestino) = {
-		if (saldo < unDestino.precio()) throw new Exception(message="Saldo insuficiente")
+	method tieneSaldo(viaje) = {
+		if (saldo < viaje.precio()) throw new Exception(message="Saldo insuficiente")
 	}
 	
-	method validarEquipajeImprescindible(unDestino){		
-		if (self.tieneEquipajeImprescindible(unDestino).negate()) throw new Exception(message="No tiene equipaje necesario")
+	method validarEquipajeImprescindible(viaje){		
+		if (self.tieneEquipajeImprescindible(viaje).negate()) throw new Exception(message="No tiene equipaje necesario")
 	}
 	
-	method tieneEquipajeImprescindible(unDestino) = unDestino.equipajeImprescindible().all({ item => mochila.contains(item) })
+	method tieneEquipajeImprescindible(viaje) = viaje.equipajeImprescindible().all({ item => mochila.contains(item) })
 	
-	method puedeViajar(unDestino) {		
-		self.tieneSaldo(unDestino)
-		self.validarEquipajeImprescindible(unDestino)
+	method puedeViajar(viaje) {		
+		self.tieneSaldo(viaje)
+		self.validarEquipajeImprescindible(viaje)
 		
 		return true
 	}
