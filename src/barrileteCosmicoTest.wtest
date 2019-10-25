@@ -32,8 +32,8 @@ describe "Barrilete Cósmico" {
 		saldo = 1500,
 		seguidos = [],
 		localidadDeOrigen = goodAirs,
-		mochila = [],
-		perfil = "Empresario"
+		mochila = ["Protector Solar","Equipo de Buceo"],
+		perfil = perfilEmpresarial
 	)	
 	
 	const bondi = new MedioDeTransporte(
@@ -92,7 +92,7 @@ describe "Barrilete Cósmico" {
 	}
 	
 	test "Obtener las millas de PHari" {
-		assert.equals(500 ,pabloHari.kilometros()) 
+		assert.equals(500, pabloHari.kilometros()) 
 	}
 	
 	test "Hacer que PHari vuele a Silver 's Sea." {
@@ -122,6 +122,6 @@ describe "Barrilete Cósmico" {
 		
 		pabloHari.viajar(silversSea)
 		
-		assert.that(pabloHari.localidadDeOrigen() == silversSea) 		
+		assert.equals(pabloHari.localidadDeOrigen(), silversSea) 		
 	}	
 }
