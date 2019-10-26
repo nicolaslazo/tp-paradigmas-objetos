@@ -6,7 +6,7 @@ object barrileteCosmico {
 		return new Viaje(
 			localidadOrigen = unUsuario.localidadDeOrigen(),
 			localidadDestino = unDestino,
-			medioDeTransporte = unUsuario.eleccionMedioDeTransporte(unUsuario, localidadOrigen, localidadDestino, mediosDeTransporte)
+			medioDeTransporte = unUsuario.eleccionMedioDeTransporte(unUsuario, unUsuario.localidadDeOrigen(), unDestino, mediosDeTransporte)
 		)
 	}
 
@@ -61,7 +61,7 @@ class Localidad {
 class Montania inherits Localidad{
 	var altura
 	override method esDestacado() = true
-	override method esPeligroso() = super().esPeligroso() && altura > 5000
+	override method esPeligroso() = super() && altura > 5000
 }
 class Playa inherits Localidad{
 	override method esPeligroso() = false
@@ -150,7 +150,7 @@ class Usuario {
 		self.puedeViajar(viaje)
 		viajes.add(viaje)
 		saldo -= viaje.precio()
-		localidadDeOrigen = viaje.localidadDeDestino() //#8
+		localidadDeOrigen = viaje.localidadDestino() //#8
 	}
 	
 	method seguirUsuario(usuario) {
