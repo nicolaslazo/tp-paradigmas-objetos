@@ -3,28 +3,32 @@ import barrileteCosmico.*
 describe "Barrilete Cósmico" {	
 	
 	const garlicsSea = new Localidad(
-	nombre = "Garlic's Sea",
-	equipajeImprescindible = ["Caña de Pescar, Piloto"],
-	precio = 2500,
-	kilometro = 550)
+		nombre = "Garlic's Sea",
+		equipajeImprescindible = ["Caña de Pescar, Piloto"],
+		precio = 2500,
+		kilometro = 550
+	)
 
 	const silversSea = new Localidad(
-	nombre = "Silver's Sea",
-	equipajeImprescindible = ["Protector Solar","Equipo de Buceo"],
-	precio = 1350,
-	kilometro = 650)
+		nombre = "Silver's Sea",
+		equipajeImprescindible = ["Protector Solar","Equipo de Buceo"],
+		precio = 1350,
+		kilometro = 650
+	)
 
 	const lastToninas = new Localidad(
-	nombre = "Last Toninas",
-	equipajeImprescindible = ["Vacuna Gripal", "Vacuna B", "Necronomicon"],
-	precio = 3500,
-	kilometro = 530)
+		nombre = "Last Toninas",
+		equipajeImprescindible = ["Vacuna Gripal", "Vacuna B", "Necronomicon"],
+		precio = 3500,
+		kilometro = 530
+	)
 
 	const goodAirs = new Localidad(
-	nombre = "Good Airs",
-	equipajeImprescindible = ["Cerveza", "Protector Solar"],
-	precio = 1500,
-	kilometro = 100)
+		nombre = "Good Airs",
+		equipajeImprescindible = ["Cerveza", "Protector Solar"],
+		precio = 1500,
+		kilometro = 100
+	)
 	
 	
 	
@@ -34,7 +38,7 @@ describe "Barrilete Cósmico" {
 		saldo = 1500,
 		seguidos = [],
 		localidadDeOrigen = goodAirs,
-		mochila = ["Protector Solar","Equipo de Buceo"],
+		mochila = ["Protector Solar","Equipo de Buceo", "Cerveza", "Vacuna Gripal", "Vacuna B", "Necronomicon"],
 		perfil = perfilEmpresarial
 	)
 	
@@ -94,7 +98,7 @@ describe "Barrilete Cósmico" {
 	}
 	
 	test "Obtener los kilometros de PHari" {
-		var pHariDeBsAsAToninas = barrileteCosmico.armarUnViaje(pabloHari, lastToninas)	
+		var pHariDeBsAsAToninas = barrileteCosmico.armarUnViaje(pabloHari, lastToninas)
 		pabloHari.viajar(pHariDeBsAsAToninas)
 		var pHariDeToninasABsAs = barrileteCosmico.armarUnViaje(pabloHari, goodAirs)
 		pabloHari.viajar(pHariDeToninasABsAs)
@@ -103,13 +107,15 @@ describe "Barrilete Cósmico" {
 	}
 	
 	test "Hacer que PHari vuele a Silver 's Sea." {
-		assert.that(pabloHari.puedeViajar(silversSea)) 
+		var pHariASilversSea = barrileteCosmico.armarUnViaje(pabloHari, silversSea)
+		assert.that(pabloHari.puedeViajar(pHariASilversSea)) 
 		
-		pabloHari.viajar(silversSea)
+		pabloHari.viajar(pHariASilversSea)
 		
-		assert.that(pabloHari.viajes().contains(silversSea)) 
+		assert.that(pabloHari.viajes().contains(pHariASilversSea)) 
 		assert.equals(150, pabloHari.saldo()) 
 	}	
+	
 	//Test Entrega 2
 	
 	test "La distancia entre Garlic's Sea y Good Airs es de 450" {
