@@ -72,13 +72,11 @@ class CiudadHistorica inherits Localidad{
 	override method esDestacado() = super() && museos.count() > 3
 }
 
-class MedioDeTransporte {
-	var costoPorKm
-	var tiempo
-	
-	method costoPorKm() = costoPorKm
+class MedioDeTransporte {	
+	var tiempo	
+	method costoPorKm() 
 	method tiempo() = tiempo
-	method costoEntreLocalidades(distancia) = costoPorKm * distancia
+	method costoEntreLocalidades(distancia) = self.costoPorKm() * distancia
 }
 
 

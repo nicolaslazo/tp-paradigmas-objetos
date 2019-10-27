@@ -30,7 +30,21 @@ describe "Barrilete Cósmico" {
 		kilometro = 100
 	)
 	
+	const aconcagua = new Montania(
+		nombre = "Aconcagua",
+		equipajeImprescindible = ["Escalador", "Agua"],
+		precio = 1500,
+		kilometro = 100,
+		altura = 9000
+	)
 	
+	const roma = new CiudadHistorica(
+		nombre = "Roma",
+		equipajeImprescindible = ["Escalador", "Agua"],
+		precio = 1500,
+		kilometro = 100,
+		museos = ["coliseo","arte romano","torre de pizza"]
+	)
 	
 	const pabloHari = new Usuario(
 		userName = "PHari",
@@ -42,9 +56,18 @@ describe "Barrilete Cósmico" {
 		perfil = perfilEmpresarial
 	)
 	
-	const bondi = new MedioDeTransporte(
-		costoPorKm = 4,
-		tiempo  = 300
+	const bondi = micro	
+	
+	const turbinaPulenta = new Turbina(
+		nivelImpulso = 100
+	)
+	const turbinaPulenta2 = new Turbina(
+		nivelImpulso = 100
+	)
+	
+	const flyBondi = new Avion(
+		tiempo = 1,
+		turbinas = [turbinaPulenta,turbinaPulenta2]
 	)
 	
 	const deAjoABsAs = new Viaje(
@@ -122,8 +145,8 @@ describe "Barrilete Cósmico" {
 		assert.equals(450 ,goodAirs.distanciaA(garlicsSea)) 
 	}
 	
-	test "El precio de un viaje desde Garlic's Sea a Good Airs en bondi es de 3300" {
-		assert.equals(3300 ,deAjoABsAs.precio()) 
+	test "El precio de un viaje desde Garlic's Sea a Good Airs en Micro es de 2,251,500" {
+		assert.equals(2251500 ,deAjoABsAs.precio()) 
 	}	
 	
 	test "La localidad de origen de un viaje armado para PHari es Good Airs"{
@@ -140,4 +163,16 @@ describe "Barrilete Cósmico" {
 		
 		assert.equals(pabloHari.localidadDeOrigen(), silversSea) 		
 	}	
+	
+	//TEST DE COSTO DE VIAJE EN AVION
+	
+	//TEST DE LOCALIDAD PELIGROSA 
+	
+	//TEST DE LOCALIDAD DESTACADA
+	
+	//TEST DE Perfil empresarial
+	
+	//TEST DE Perfil estudiantil
+	
+	//TEST DE NO PUEDE VIAJAR SI NO TIENE EQUIPAJE IMPRECINDIBE
 }
