@@ -6,48 +6,69 @@ describe "Barrilete Cósmico" {
 		nombre = "Garlic's Sea",
 		equipajeImprescindible = ["Caña de Pescar, Piloto"],
 		precio = 2500,
-		kilometro = 550
+		kilometro = 1
 	)
 
 	const silversSea = new Localidad(
 		nombre = "Silver's Sea",
 		equipajeImprescindible = ["Protector Solar","Equipo de Buceo"],
 		precio = 1350,
-		kilometro = 650
+		kilometro = 3
 	)
 
 	const lastToninas = new Localidad(
 		nombre = "Last Toninas",
 		equipajeImprescindible = ["Vacuna Gripal", "Vacuna B", "Necronomicon"],
 		precio = 3500,
-		kilometro = 530
+		kilometro = 5
 	)
 
 	const goodAirs = new Localidad(
 		nombre = "Good Airs",
 		equipajeImprescindible = ["Cerveza", "Protector Solar"],
 		precio = 1500,
-		kilometro = 100
+		kilometro = 7
 	)
 	
 	const aconcagua = new Montania(
 		nombre = "Aconcagua",
-		equipajeImprescindible = ["Escalador", "Agua"],
-		precio = 1500,
-		kilometro = 100,
+		equipajeImprescindible = ["Escalador", "Agua", "Vacuna"],
+		precio = 200,
+		kilometro = 9,
 		altura = 9000
 	)
 	
 	const roma = new CiudadHistorica(
 		nombre = "Roma",
 		equipajeImprescindible = ["Escalador", "Agua"],
-		precio = 1500,
-		kilometro = 100,
-		museos = ["coliseo","arte romano","torre de pizza"]
+		precio = 2100,
+		kilometro = 11,
+		museos = ["coliseo","arte romano","torre de pizza","museo random"]
+	)		
+	
+	const bondi = new Micro(
+		tiempo = 100
+	)
+	
+	
+		const deAjoABsAs = new Viaje(
+		localidadOrigen = garlicsSea,
+		localidadDestino = goodAirs,
+		medioDeTransporte = bondi
 	)
 	
 	const pabloHari = new Usuario(
 		userName = "PHari",
+		viajes = [deAjoABsAs],
+		saldo = 1500,
+		seguidos = [],
+		localidadDeOrigen = goodAirs,
+		mochila = ["Protector Solar","Equipo de Buceo", "Cerveza", "Vacuna Gripal", "Vacuna B", "Necronomicon"],
+		perfil = perfilEstudiantil
+	)
+	
+	const pabloEmpresario = new Usuario(
+		userName = "PEmpresario",
 		viajes = [],
 		saldo = 1500,
 		seguidos = [],
@@ -56,24 +77,25 @@ describe "Barrilete Cósmico" {
 		perfil = perfilEmpresarial
 	)
 	
-	const bondi = micro	
+	const barcoBarato = new Barco(
+		tiempo = 120,
+		probabilidadChoque = 0.0000000001
+	)
+	
+	const bondiRapido = new Micro(
+		tiempo = 50
+	)
 	
 	const turbinaPulenta = new Turbina(
-		nivelImpulso = 100
+		nivelImpulso = 20
 	)
 	const turbinaPulenta2 = new Turbina(
-		nivelImpulso = 100
+		nivelImpulso = 20
 	)
-	
+
 	const flyBondi = new Avion(
-		tiempo = 1,
+		tiempo = 5,
 		turbinas = [turbinaPulenta,turbinaPulenta2]
-	)
-	
-	const deAjoABsAs = new Viaje(
-		localidadOrigen = garlicsSea,
-		localidadDestino = goodAirs,
-		medioDeTransporte = bondi
 	)
 	
 	fixture{
@@ -81,12 +103,18 @@ describe "Barrilete Cósmico" {
 		barrileteCosmico.agregarLocalidad(silversSea)
 		barrileteCosmico.agregarLocalidad(lastToninas)
 		barrileteCosmico.agregarLocalidad(goodAirs)
+		barrileteCosmico.agregarLocalidad(aconcagua)
+		barrileteCosmico.agregarLocalidad(roma)		
 		barrileteCosmico.agregarMedioDeTransporte(bondi)
+		barrileteCosmico.agregarMedioDeTransporte(flyBondi)
+		barrileteCosmico.agregarMedioDeTransporte(bondiRapido)
+		barrileteCosmico.agregarMedioDeTransporte(barcoBarato)	   
+		
 	}
 		
 
 	test "Obtener los destinos más importantes de Barrilete Cósmico" {
-		assert.equals([garlicsSea,lastToninas] , barrileteCosmico.destinosDestacados())
+		assert.equals([garlicsSea,lastToninas,aconcagua,roma] , barrileteCosmico.destinosDestacados())
 	}
 	
 	test "Aplicarle un 25% de descuento a Last Toninas" {
@@ -109,7 +137,7 @@ describe "Barrilete Cósmico" {
 	}
 	
 	test "Los destinos peligrosos son" {
-		assert.equals([lastToninas],barrileteCosmico.destinosPeligrosos()) 
+		assert.equals([lastToninas,aconcagua,roma],barrileteCosmico.destinosPeligrosos()) 
 	}
 	
 	test "Barrilete cosmico es empresa extrema?" {
@@ -117,16 +145,11 @@ describe "Barrilete Cósmico" {
 	}
 	
 	test "Conocer la carta de destinos de Barrilete Cósmico" {
-		assert.equals("Garlic's Sea,Silver's Sea,Last Toninas,Good Airs", barrileteCosmico.cartaDeDestinos()) 
+		assert.equals("Garlic's Sea,Silver's Sea,Last Toninas,Good Airs,Aconcagua,Roma", barrileteCosmico.cartaDeDestinos()) 
 	}
 	
-	test "Obtener los kilometros de PHari" {
-		var pHariDeBsAsAToninas = barrileteCosmico.armarUnViaje(pabloHari, lastToninas)
-		pabloHari.viajar(pHariDeBsAsAToninas)
-		var pHariDeToninasABsAs = barrileteCosmico.armarUnViaje(pabloHari, goodAirs)
-		pabloHari.viajar(pHariDeToninasABsAs)
-		
-		assert.equals(860, pabloHari.kilometros()) 
+	test "Obtener los kilometros de PHari" {		
+		assert.equals(6, pabloHari.kilometros()) 
 	}
 	
 	test "Hacer que PHari vuele a Silver 's Sea." {
@@ -141,16 +164,16 @@ describe "Barrilete Cósmico" {
 	
 	//Test Entrega 2
 	
-	test "La distancia entre Garlic's Sea y Good Airs es de 450" {
-		assert.equals(450 ,goodAirs.distanciaA(garlicsSea)) 
+	test "La distancia entre Garlic's Sea y Good Airs es de 6" {
+		assert.equals(6 ,goodAirs.distanciaA(garlicsSea)) 
 	}
 	
-	test "El precio de un viaje desde Garlic's Sea a Good Airs en Micro es de 2,251,500" {
-		assert.equals(2251500 ,deAjoABsAs.precio()) 
+	test "El precio de un viaje desde Garlic's Sea a Good Airs en Micro es de 31500" {
+		assert.equals(31500 ,deAjoABsAs.precio()) 
 	}	
 	
 	test "La localidad de origen de un viaje armado para PHari es Good Airs"{
-		var unViaje = barrileteCosmico.armarUnViaje(pabloHari, garlicsSea)
+		var unViaje = barrileteCosmico.armarUnViaje(pabloHari, silversSea)
 		assert.equals(goodAirs, unViaje.localidadOrigen())
 	}	
 	
@@ -164,15 +187,39 @@ describe "Barrilete Cósmico" {
 		assert.equals(pabloHari.localidadDeOrigen(), silversSea) 		
 	}	
 	
-	//TEST DE COSTO DE VIAJE EN AVION
+	test "El coste de Pablo Hari para viajar en fly bondi a Silver sea sera de 1350" {
+		assert.that(pabloHari.puedeViajar(silversSea)) 
+		
+		var viaje = barrileteCosmico.armarUnViaje(pabloHari, silversSea)
+		
+		assert.equals(1350 ,viaje.precio()) 			
+	}	
 	
-	//TEST DE LOCALIDAD PELIGROSA 
+	test "El Aconcagua es una localidad peligrosa" {
+		assert.that(aconcagua.esPeligroso()) 
+	}	//si quieren hacer localidad que no sea peligrosa
 	
-	//TEST DE LOCALIDAD DESTACADA
+	test "Roma es una ciudad destacada" {
+		assert.that(roma.esDestacado()) 
+	}		//si quieren hacer localidad que no sea destacada	
+
+	test "Pablo el empresario eligiria como medio de transporte a flyBondi" {
+		var viaje = barrileteCosmico.armarUnViaje(pabloEmpresario,roma)
+		assert.equals(flyBondi,viaje.medioDeTransporte()) 
+	}	
 	
-	//TEST DE Perfil empresarial
+	test "Pablo Hari eligiria como medio de transporte para viajar a bs as a fly bondi " {
+		var viaje = barrileteCosmico.armarUnViaje(pabloHari,goodAirs)
+		assert.equals(flyBondi,viaje.medioDeTransporte()) 
+	}	
 	
-	//TEST DE Perfil estudiantil
+	//ver como manejar test de excepciones
+	test "Pablo no podria viajar al Buenos Aires porque no tiene plata" {			
+		assert.throwsExceptionWithMessage("No tiene suficiente saldo", {barrileteCosmico.armarUnViaje(pabloHari,goodAirs)})
+	}		
 	
-	//TEST DE NO PUEDE VIAJAR SI NO TIENE EQUIPAJE IMPRECINDIBE
+	test "Pablo no podria viajar al Aconcagua porque no tiene equipaje necesario" {			
+		assert.throwsExceptionWithMessage("No tiene equipaje necesario", {barrileteCosmico.armarUnViaje(pabloHari,aconcagua)})
+	}		
+	
 }

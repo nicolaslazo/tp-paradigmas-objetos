@@ -67,9 +67,9 @@ class Playa inherits Localidad{
 	override method esPeligroso() = false
 }
 class CiudadHistorica inherits Localidad{
-	var museos
+	var museos 	
 	override method esPeligroso() = equipajeImprescindible.any({equipaje => equipaje.contains("Seguro asistencia al viajero") }).negate()
-	override method esDestacado() = super() && museos.count() > 3
+	override method esDestacado() = super() && museos.size() > 3
 }
 
 class MedioDeTransporte {	
@@ -80,7 +80,7 @@ class MedioDeTransporte {
 }
 
 
-object micro inherits MedioDeTransporte{
+class Micro inherits MedioDeTransporte{
 	override method costoPorKm() = 5000	
 }
 
@@ -108,13 +108,15 @@ object tren inherits MedioDeTransporte{
 class Viaje{
 	var localidadOrigen
 	var localidadDestino
-	var medioDeTransporte	
+	var medioDeTransporte		
 	
+	method medioDeTransporte() = medioDeTransporte	
+
 	method localidadOrigen() = localidadOrigen
 	method localidadDestino() = localidadDestino	
 	
 	method distanciaViaje() = localidadOrigen.distanciaA(localidadDestino)
-	method precio() = medioDeTransporte.costoEntreLocalidades(self.distanciaViaje()) + localidadDestino.precio()
+	method precio() = return self.medioDeTransporte().costoEntreLocalidades(self.distanciaViaje()) + localidadDestino.precio()
 	method equipajeImprescindible() = localidadDestino.equipajeImprescindible()
 }
 
@@ -166,11 +168,11 @@ class Usuario {
 	}
 	
 	method eleccionMedioDeTransporte(usuario, origen, destino, mediosDeTransporte) {
-		perfil.elegirMedioDeTransporte(usuario, origen, destino, mediosDeTransporte)
+		return perfil.elegirMedioDeTransporte(usuario, origen, destino, mediosDeTransporte)
 	}
 	
 	method filtrarTransportesCosteables(origen, destino, mediosDeTransporte) {
-		mediosDeTransporte.filter({ medio => new Viaje(localidadOrigen = origen, localidadDestino = destino, medioDeTransporte = medio).precio() <= saldo })
+		return mediosDeTransporte.filter({ medio => new Viaje(localidadOrigen = origen, localidadDestino = destino, medioDeTransporte = medio).precio() <= saldo })
 	}
 }
 
