@@ -108,10 +108,8 @@ object tren inherits MedioDeTransporte{
 class Viaje{
 	var localidadOrigen
 	var localidadDestino
-	var medioDeTransporte		
-	
-	method medioDeTransporte() = medioDeTransporte	
-
+	var medioDeTransporte
+	method medioDeTransporte() = medioDeTransporte
 	method localidadOrigen() = localidadOrigen
 	method localidadDestino() = localidadDestino	
 	
@@ -128,9 +126,12 @@ class Usuario {
 	var localidadDeOrigen
 	var perfil
 	var mochila
+
+	method viajes() = viajes
+	method saldo() = saldo
 	
 	method tieneSaldo(viaje) = {
-		if (saldo < viaje.precio()) throw new Exception(message="Saldo insuficiente")
+		if (self.saldo() < viaje.precio()) throw new Exception(message="Saldo insuficiente")
 	}
 	
 	method validarEquipajeImprescindible(viaje){		
@@ -160,9 +161,7 @@ class Usuario {
 	
 	method localidadDeOrigen() = localidadDeOrigen
 	method kilometros() = viajes.sum({ viaje => viaje.distanciaViaje() }) //#8
-	method viajes() = viajes
-	method saldo() = saldo
-	
+		
 	method followBack(usuario) {
 		seguidos.add(usuario)
 	}
@@ -172,7 +171,7 @@ class Usuario {
 	}
 	
 	method filtrarTransportesCosteables(origen, destino, mediosDeTransporte) {
-		var costeables = mediosDeTransporte.filter({ medio => new Viaje(localidadOrigen = origen, localidadDestino = destino, medioDeTransporte = medio).precio() <= saldo })
+		var costeables = mediosDeTransporte.filter({ medio => medio.costoEntreLocalidades(origen.distanciaA(destino)) <= saldo })
 		if(costeables.size() == 0) throw new Exception("No se puede armar viaje porque no puede costear ningun medio de transporte")
 		return costeables 
 	}

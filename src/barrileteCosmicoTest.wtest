@@ -87,10 +87,10 @@ describe "Barrilete Cósmico" {
 	)
 	
 	const turbinaPulenta = new Turbina(
-		nivelImpulso = 20
+		nivelImpulso = 10
 	)
 	const turbinaPulenta2 = new Turbina(
-		nivelImpulso = 20
+		nivelImpulso = 10
 	)
 
 	const flyBondi = new Avion(
@@ -159,7 +159,7 @@ describe "Barrilete Cósmico" {
 		pabloHari.viajar(pHariASilversSea)
 		
 		assert.that(pabloHari.viajes().contains(pHariASilversSea)) 
-		assert.equals(150, pabloHari.saldo()) 
+		assert.equals(70, pabloHari.saldo()) 
 	}	
 	
 	//Test Entrega 2
@@ -192,7 +192,7 @@ describe "Barrilete Cósmico" {
 		
 		var viaje = barrileteCosmico.armarUnViaje(pabloHari, silversSea)
 		
-		assert.equals(1350 ,viaje.precio()) 			
+		assert.equals(1430 ,viaje.precio()) 			
 	}	
 	
 	test "El Aconcagua es una localidad peligrosa" {
@@ -214,14 +214,14 @@ describe "Barrilete Cósmico" {
 	}	
 	
 	//ver como manejar test de excepciones
-	test "Pablo no podria viajar al Last Toninas porque no tiene plata" {		
-		
-		assert.throwsException({barrileteCosmico.armarUnViaje(pabloHari,lastToninas)})
+	test "Pablo no podria viajar al Last Toninas porque no le alcanza la plata" {		
+	    var viaje = barrileteCosmico.armarUnViaje(pabloHari,lastToninas)
+		assert.throwsException({pabloHari.viajar(viaje)})
 	}		
 	
 	test "Pablo no podria viajar al Aconcagua porque no tiene equipaje necesario" {	
         var viaje = barrileteCosmico.armarUnViaje(pabloHari,aconcagua)
-		assert.throwsException({pabloHari.viajar(goodAirs)})
+		assert.throwsException({pabloHari.viajar(viaje)})
 	}		
 	
 }
