@@ -172,7 +172,9 @@ class Usuario {
 	}
 	
 	method filtrarTransportesCosteables(origen, destino, mediosDeTransporte) {
-		return mediosDeTransporte.filter({ medio => new Viaje(localidadOrigen = origen, localidadDestino = destino, medioDeTransporte = medio).precio() <= saldo })
+		var costeables = mediosDeTransporte.filter({ medio => new Viaje(localidadOrigen = origen, localidadDestino = destino, medioDeTransporte = medio).precio() <= saldo })
+		if(costeables.size() == 0) throw new Exception("No se puede armar viaje porque no puede costear ningun medio de transporte")
+		return costeables 
 	}
 }
 

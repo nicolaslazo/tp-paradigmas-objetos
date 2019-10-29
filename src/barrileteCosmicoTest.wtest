@@ -214,12 +214,14 @@ describe "Barrilete Cósmico" {
 	}	
 	
 	//ver como manejar test de excepciones
-	test "Pablo no podria viajar al Buenos Aires porque no tiene plata" {			
-		assert.throwsExceptionWithMessage("No tiene suficiente saldo", {barrileteCosmico.armarUnViaje(pabloHari,goodAirs)})
+	test "Pablo no podria viajar al Last Toninas porque no tiene plata" {		
+		
+		assert.throwsException({barrileteCosmico.armarUnViaje(pabloHari,lastToninas)})
 	}		
 	
-	test "Pablo no podria viajar al Aconcagua porque no tiene equipaje necesario" {			
-		assert.throwsExceptionWithMessage("No tiene equipaje necesario", {barrileteCosmico.armarUnViaje(pabloHari,aconcagua)})
+	test "Pablo no podria viajar al Aconcagua porque no tiene equipaje necesario" {	
+        var viaje = barrileteCosmico.armarUnViaje(pabloHari,aconcagua)
+		assert.throwsException({pabloHari.viajar(goodAirs)})
 	}		
 	
 }
