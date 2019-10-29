@@ -131,7 +131,7 @@ class Usuario {
 	method saldo() = saldo
 	
 	method tieneSaldo(viaje){
-		if (self.saldo() < viaje.precio()) throw new Exception(message="Saldo insuficiente")
+		if (saldo < viaje.precio()) throw new Exception(message="Saldo insuficiente")
 	}
 	
 	method validarEquipajeImprescindible(viaje){		
