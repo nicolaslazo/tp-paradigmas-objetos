@@ -21,7 +21,3 @@ Podrán encontrar el enunciado del TP haciendo click [acá](https://docs.google.
 1. Buscá la carpeta que se acabás de clonar (`TPObjetos2019`), la seleccionás y hacés click en `OK`.
 1. Si todo sale bien, volviste a la pantalla anterior. Hacé click en `Finish` para finalizar.
 1. Empeza a codificar.
-
-## Información o decisiones tomadas durante el TP
-
-* Completar en caso de creerlo necesario
